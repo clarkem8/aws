@@ -55,6 +55,10 @@ Resources:
             DeviceIndex: 0
             Groups:
               - sg-08317ef6f8619b9ab
+        UserData:
+          #!/bin/bash -x
+          export USER=clarkem8
+          export GIT_USER=clarkem8
         TagSpecifications:
           - ResourceType: instance
             Tags:
@@ -67,6 +71,7 @@ Resources:
               - Key: User
                 Value: 
                   Ref: USER
+               
         
   Ec2Instance: 
     Type: AWS::EC2::Instance
