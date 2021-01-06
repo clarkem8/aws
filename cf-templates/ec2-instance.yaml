@@ -80,8 +80,9 @@ Resources:
               - Key: User
                 Value: 
                   Ref: USER
+              - Key: INSTALL_TEST_CONDA_ENV
+                Value: Yes
                
-        
   Ec2Instance: 
     Type: AWS::EC2::Instance
     Properties:
