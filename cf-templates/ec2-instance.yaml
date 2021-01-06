@@ -60,9 +60,9 @@ Resources:
             #!/bin/bash -x
             export USER=clarkem8
             export GIT_USER=clarkem8
+            export GIT_REPO=environment
             useradd $USER
             yum install git -y
-            GIT_REPO=environment
             export GIT_PATH=/home/$USER/github/$GIT_REPO
             echo "Git path is - $GIT_PATH"
             sudo -i -u $USER git clone "https://github.com/$GIT_USER/$GIT_REPO.git" $GIT_PATH
