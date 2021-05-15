@@ -119,7 +119,11 @@ Resources:
     Properties:
       Tags:
       - Key: Name
-        Value: MC-Test-IG
+        Value:
+          !Join
+            - '-'
+            - - Ref: AWS::StackName
+              - 'IG'
 
   IGAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -133,7 +137,11 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: MC-Test-PRT
+          Value:
+            !Join
+              - '-'
+              - - Ref: AWS::StackName
+                - 'PRT'
 
   DefaultPublicRoute:
     Type: AWS::EC2::Route
