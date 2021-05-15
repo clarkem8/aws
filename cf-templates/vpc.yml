@@ -37,17 +37,51 @@ Resources:
     Properties: 
       GroupDescription: Sample security group
       GroupName: MC-Test-SG
-      SecurityGroupIngress:
-        Description: Inbound security group rules
-        CidrIp: 0.0.0.0/0
-        IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
       Tags: 
         - Key: Name
           Value: MC-Test-SG
       VpcId: !Ref VPC
-      
+
+  SGIngressSSH:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Inbound security group rules for SSH
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      GroupId: !Ref SecurityGroup
+      SourceSecurityGroupId: !Ref SecurityGroup
+  
+  SGIngressHTTP:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Inbound security group rules for HTTP
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      GroupId: !Ref SecurityGroup
+      SourceSecurityGroupId: !Ref SecurityGroup
+
+  SGIngressTCP:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Inbound security group rules for TCP
+      IpProtocol: tcp
+      FromPort: 23000
+      ToPort: 23010
+      GroupId: !Ref SecurityGroup
+      SourceSecurityGroupId: !Ref SecurityGroup
+
+  SGIngressICMP:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Inbound security group rules for Ping/ICMP
+      IpProtocol: icmp
+      FromPort: -1
+      ToPort: -1
+      GroupId: !Ref SecurityGroup
+      SourceSecurityGroupId: !Ref SecurityGroup
+  
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
