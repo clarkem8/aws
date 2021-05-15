@@ -1,10 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Creation of an AIM role
-Parameters:
-  IAMRole1:
-    Description: Managed IAM Policy
-    Type: String
-    Default: Test
 
 Resources:
   RootRole:
@@ -24,7 +19,11 @@ Resources:
         - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'
       Tags:
         - Key: Name
-          Value: MC-Test-Iam-role
+          Value:
+            !Join
+            - '-'
+            - - Ref: AWS::StackName
+              - 'IAM-Role'
 
   RolePolicies: 
     Type: "AWS::IAM::Policy"
