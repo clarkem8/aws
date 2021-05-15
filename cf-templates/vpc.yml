@@ -5,10 +5,11 @@ Parameters:
     Description: IP Address range for the VPN connected VPC
     Type: String
     Default: 172.31.0.0/16
-  
-  AZ:
+  AZ1:
     Type: AWS::EC2::AvailabilityZone::Name
-    
+  AZ2:
+    Type: AWS::EC2::AvailabilityZone::Name
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -18,28 +19,59 @@ Resources:
       EnableDnsSupport: True
       Tags: 
         - Key: Name
-          Value: MC-Test-VPC
-
-  Subnet:
+          Value:
+            !Join
+              - '-'
+              - - Ref: AWS::StackName
+                - 'VPC'
+  Subnet1:
     Type: AWS::EC2::Subnet
     Properties: 
       AvailabilityZone: 
-        Ref: AZ
+        Ref: AZ1
       CidrBlock: 172.31.0.0/20
       MapPublicIpOnLaunch: True
       Tags: 
         - Key: Name
-          Value: MC-Test-Subnet
+          Value:
+            !Join
+              - '-'
+              - - Ref: AWS::StackName
+                - 'Subnet1'
       VpcId: !Ref VPC
-  
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties: 
+      AvailabilityZone: 
+        Ref: AZ2
+      CidrBlock: 172.31.16.0/20
+      MapPublicIpOnLaunch: True
+      Tags: 
+        - Key: Name
+          Value:
+            !Join
+              - '-'
+              - - Ref: AWS::StackName
+                - 'Subnet2'
+      VpcId: !Ref VPC
+
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties: 
       GroupDescription: Sample security group
-      GroupName: MC-Test-SG
+      GroupName:
+        !Join
+          - '-'
+          - - Ref: AWS::StackName
+            - 'SG'
       Tags: 
         - Key: Name
-          Value: MC-Test-SG
+          Value:
+            !Join
+              - '-'
+              - - Ref: AWS::StackName
+                - 'SG'
       VpcId: !Ref VPC
 
   SGIngressSSH:
@@ -111,21 +143,31 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
 
-  SubnetRTAssociation:
+  Subnet1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: 
       RouteTableId: !Ref PublicRouteTable
-      SubnetId: !Ref Subnet
+      SubnetId: !Ref Subnet1
+
+  Subnet2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref Subnet2
       
 Outputs:
   VPC:
     Description: VPC created
     Value:
       Ref: VPC
-  Subnet:
+  Subnet1:
     Description: Subnet created
     Value:
-      Ref: Subnet
+      Ref: Subnet1
+  Subnet2:
+    Description: Subnet created
+    Value:
+      Ref: Subnet2
   SecurityGroup:
     Description: Securty group created
     Value:
