@@ -4,7 +4,7 @@ Parameters:
   AMI:
     Description: AMI to start Ec2 instance from
     Type: String
-    Default: ami-03657b56516ab7912
+    Default: ami-0fa49cc9dc8d62c84
   
   AZ:
     Type: AWS::EC2::AvailabilityZone::Name
