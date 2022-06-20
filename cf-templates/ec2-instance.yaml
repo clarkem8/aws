@@ -70,7 +70,6 @@ Resources:
             echo "Running userdata"
             
             export USER="${USER}"
-            
             useradd $USER
             yum install git -y
             GIT_REPO=environment
